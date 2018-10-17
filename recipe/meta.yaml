@@ -1,6 +1,6 @@
 {% set name = "ligo-segments" %}
-{% set version = "1.0.1" %}
-{% set sha256 = "94159ab427422d4434dc9c07516a89fd7360ad27a64cb3d81b2015a27cd551ed" %}
+{% set version = "1.1.0" %}
+{% set sha256 = "6581abed50c13d273bb7d25a8eb104222090e3831885d1fea73bfba91518af1b" %}
 
 package:
   name: {{ name }}
