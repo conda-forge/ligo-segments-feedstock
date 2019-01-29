@@ -12,6 +12,7 @@ source:
   sha256: {{ sha256 }}
   patches:
     - pure-python-windows.patch  # [win]
+    - python3-bool.patch  # [py>=30]
 
 build:
   number: 0
