@@ -14,8 +14,8 @@ source:
     - pure-python-windows.patch  # [win]
 
 build:
-  number: 1000
-  script: python -m pip install --no-deps --ignore-installed .
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   build:
@@ -32,6 +32,18 @@ requirements:
 test:
   imports:
     - ligo.segments
+    # utils requires LAL, which is [not win]
+    - ligo.segments.utils  # [not win]
+  source_files:
+    - test/*.py
+  requires:
+    - python-lal  # [not win]
+  commands:
+    - python test/segments_verify.py
+    - python test/segments_utils_verify.py  # [not win]
+    # inspect links
+    - conda inspect linkages -p ${PREFIX} ${PKG_NAME}  # [not win]
+    - conda inspect objects -p ${PREFIX} ${PKG_NAME}  # [osx]
 
 about:
   home: https://git.ligo.org/lscsoft/{{ name }}
