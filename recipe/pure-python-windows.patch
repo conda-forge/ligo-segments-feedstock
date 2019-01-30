@@ -1,34 +1,51 @@
-diff --git a/setup.py b/setup.py
-index ee7b146..b38378d 100644
---- a/setup.py
-+++ b/setup.py
-@@ -57,11 +57,15 @@ if {'build_sphinx'}.intersection(sys.argv):
-     cmdclass['build_sphinx'] = BuildDoc
-
- # define extension
--csegments = Extension(
--    'ligo.__segments',
--    ['src/segments.c', 'src/infinity.c', 'src/segment.c', 'src/segmentlist.c'],
--    include_dirs=['src'],
--)
-+if sys.platform.startswith('win'):
-+    extensions = []
-+else:
-+    extensions = [
-+        Extension('ligo.__segments',
-+                  ['src/segments.c', 'src/infinity.c',
-+                   'src/segment.c', 'src/segmentlist.c'],
-+                  include_dirs=['src']),
-+    ]
-
- # run setup
- setup(name='ligo-segments',
-@@ -75,7 +79,7 @@ setup(name='ligo-segments',
-       cmdclass=cmdclass,
-       setup_requires=setup_requires,
-       install_requires=install_requires,
--      ext_modules=[csegments],
-+      ext_modules=extensions,
-       classifiers=[
-           'Development Status :: 5 - Production/Stable',
-           'Programming Language :: Python',
+--- setup.py	2018-10-14 08:42:48.000000000 +0100
++++ setup.py	2019-01-29 10:58:08.000000000 +0000
+@@ -62,13 +62,13 @@
+ 	cmdclass = cmdclass,
+ 	setup_requires = setup_requires,
+ 	install_requires = ['six', 'ligo-common'],
+-	ext_modules = [
+-		Extension(
+-			'ligo.segments.__segments',
+-			['src/segments.c', 'src/infinity.c', 'src/segment.c', 'src/segmentlist.c'],
+-			include_dirs = ['src'],
+-		),
+-	],
++	#ext_modules = [
++	#	Extension(
++	#		'ligo.segments.__segments',
++	#		['src/segments.c', 'src/infinity.c', 'src/segment.c', 'src/segmentlist.c'],
++	#		include_dirs = ['src'],
++	#	),
++	#],
+ 	classifiers = [
+ 		'Development Status :: 5 - Production/Stable',
+ 		'Programming Language :: Python',
+--- test/segments_verify.py	2018-10-14 08:42:48.000000000 +0100
++++ test/segments_verify.py	2019-01-29 11:49:48.000000000 +0000
+@@ -527,25 +527,3 @@
+ 	failures = doctest.testmod(segments)[0]
+ 	if failures:
+ 		sys.exit(bool(failures))
+-
+-	# then with C extension implementation
+-
+-	from ligo.segments import __segments
+-	segments.infinity = __segments.infinity
+-	segments.NegInfinity = __segments.NegInfinity
+-	segments.PosInfinity = __segments.PosInfinity
+-	segments.segment = __segments.segment
+-	segments.segmentlist = __segments.segmentlist
+-
+-	suite = unittest.TestSuite()
+-	suite.addTest(unittest.makeSuite(test_infinity))
+-	suite.addTest(unittest.makeSuite(test_segment))
+-	suite.addTest(unittest.makeSuite(test_segmentlist))
+-	suite.addTest(unittest.makeSuite(test_segmentlistdict))
+-
+-	if not unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful():
+-		sys.exit(1)
+-
+-	failures = doctest.testmod(segments)[0]
+-	if failures:
+-		sys.exit(bool(failures))
