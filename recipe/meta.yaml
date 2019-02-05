@@ -1,6 +1,6 @@
 {% set name = "ligo-segments" %}
-{% set version = "1.1.0" %}
-{% set sha256 = "6581abed50c13d273bb7d25a8eb104222090e3831885d1fea73bfba91518af1b" %}
+{% set version = "1.2.0" %}
+{% set sha256 = "5edbcb88cae007c4e154a61cb2c9d0a6d6d4016c1ecaf0a59a667a267bd20e7a" %}
 
 package:
   name: {{ name }}
@@ -11,8 +11,14 @@ source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-    - pure-python-windows.patch  # [win]
-    - python3-bool.patch  # [py>=30]
+    # rename __nonzero__ -> __bool__
+    - 0001-ligo.segments-rename-__nonzero__-to-__bool__.patch
+    # fix bug in doctests
+    - 0002-.value_slice_to_index-adjust-expectations.patch
+    # build pure-python library on windows for python2
+    - pure-python-windows.patch  # [win and py<30]
+    # rename min max for windows
+    - minmax.patch  # [win]
 
 build:
   number: 0
@@ -20,7 +26,7 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}  # [not win]
+    - {{ compiler('c') }}  # [not (win and py<30)]
   host:
     - python
     - setuptools
