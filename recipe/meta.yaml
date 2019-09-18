@@ -26,9 +26,10 @@ requirements:
     - {{ compiler('c') }}  # [not win]
     - {{ compiler('m2w64_c') }}  # [win]
   host:
+    - libpython  # [win]
+    - pip
     - python
     - setuptools
-    - pip
   run:
     - python
     - six
