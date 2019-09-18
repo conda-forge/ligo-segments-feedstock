@@ -16,7 +16,7 @@ source:
     - 0002-.value_slice_to_index-adjust-expectations.patch
 
 build:
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . -vv"
   ignore_run_exports:
     - m2w64-gcc-libs  # [win]
