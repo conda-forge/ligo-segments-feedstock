@@ -17,7 +17,7 @@ source:
 
 build:
   number: 1
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: "{{ PYTHON }} -m pip install . -vv"  # [unix]
   ignore_run_exports:
     - m2w64-gcc-libs  # [win]
 
