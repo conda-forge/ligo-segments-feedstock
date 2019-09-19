@@ -7,7 +7,6 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
@@ -15,22 +14,22 @@ source:
     - 0001-ligo.segments-rename-__nonzero__-to-__bool__.patch
     # fix bug in doctests
     - 0002-.value_slice_to_index-adjust-expectations.patch
-    # build pure-python library on windows for python2
-    - pure-python-windows.patch  # [win and py<30]
-    # rename min max for windows
-    - minmax.patch  # [win]
 
 build:
-  number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  number: 1
+  script: "{{ PYTHON }} -m pip install . -vv"  # [unix]
+  ignore_run_exports:
+    - m2w64-gcc-libs  # [win]
 
 requirements:
   build:
-    - {{ compiler('c') }}  # [not (win and py<30)]
+    - {{ compiler('c') }}  # [not win]
+    - {{ compiler('m2w64_c') }}  # [win]
   host:
+    - libpython  # [win]
+    - pip
     - python
     - setuptools
-    - pip
   run:
     - python
     - six
@@ -48,12 +47,11 @@ test:
   commands:
     - python test/segments_verify.py
     - python test/segments_utils_verify.py  # [not win]
-    # inspect links
-    - conda inspect linkages -p ${PREFIX} ${PKG_NAME}  # [not win]
-    - conda inspect objects -p ${PREFIX} ${PKG_NAME}  # [osx]
 
 about:
   home: https://git.ligo.org/lscsoft/{{ name }}
+  dev_url: https://git.ligo.org/lscsoft/{{ name }}
+  doc_url: https://lscsoft.docs.ligo.org/{{ name }}/
   license: GPLv3
   license_family: GPL
   license_file: LICENSE
