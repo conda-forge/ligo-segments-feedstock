@@ -39,14 +39,14 @@ test:
   imports:
     - ligo.segments
     # utils requires LAL, which is [not win]
-    - ligo.segments.utils  # [not win]
+    - ligo.segments.utils  # [not win and py<38]
   source_files:
     - test/*.py
   requires:
-    - python-lal  # [not win]
+    - python-lal  # [not win and py<38]
   commands:
     - python test/segments_verify.py
-    - python test/segments_utils_verify.py  # [not win]
+    - python test/segments_utils_verify.py  # [not win and py<38]
 
 about:
   home: "https://git.ligo.org/lscsoft/{{ name }}"
