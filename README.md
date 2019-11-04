@@ -3,7 +3,7 @@ About ligo-segments
 
 Home: https://git.ligo.org/lscsoft/ligo-segments
 
-Package license: GPLv3
+Package license: GPL-3.0-or-later
 
 Feedstock license: BSD 3-Clause
 
