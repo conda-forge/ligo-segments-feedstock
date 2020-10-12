@@ -1,0 +1,13 @@
+diff --git a/src/segments.c b/src/segments.c
+index 50ec985..6619e4a 100644
+--- a/src/segments.c
++++ b/src/segments.c
+@@ -115,8 +115,6 @@ PyMODINIT_FUNC PyInit___segments(void)
+ 
+ 	Py_INCREF(&segments_Segment_Type);
+ 	PyModule_AddObject(module, "segment", (PyObject *) &segments_Segment_Type);
+-	/* uninherit tp_print from tuple class */
+-	segments_Segment_Type.tp_print = NULL;
+ 
+ 	/*
+ 	 * Create segmentlist class

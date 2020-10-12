@@ -14,6 +14,8 @@ source:
     - 0001-ligo.segments-rename-__nonzero__-to-__bool__.patch
     # fix bug in doctests
     - 0002-.value_slice_to_index-adjust-expectations.patch
+    # remove tp_print for python3.9
+    - tp-print.patch
 
 build:
   number: 3
