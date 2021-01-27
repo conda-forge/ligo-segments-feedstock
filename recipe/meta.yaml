@@ -9,13 +9,6 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    # rename __nonzero__ -> __bool__
-    - 0001-ligo.segments-rename-__nonzero__-to-__bool__.patch
-    # fix bug in doctests
-    - 0002-.value_slice_to_index-adjust-expectations.patch
-    # remove tp_print for python3.9
-    - tp-print.patch
 
 build:
   number: 0
