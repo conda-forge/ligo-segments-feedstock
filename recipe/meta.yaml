@@ -1,6 +1,5 @@
 {% set name = "ligo-segments" %}
 {% set version = "1.3.0" %}
-{% set sha256 = "13e0e278f9a14b247793884b368d6fae3b806cd794284e7afba158a2ccc016b3" %}
 
 package:
   name: {{ name|lower }}
@@ -8,11 +7,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 13e0e278f9a14b247793884b368d6fae3b806cd794284e7afba158a2ccc016b3
 
 build:
-  number: 0
-  script: {{ PYTHON }} -m pip install . -vv  # [unix]
+  number: 1
+  script: {{ PYTHON }} -m pip install . -vv
   ignore_run_exports:
     - m2w64-gcc-libs  # [win]
 
@@ -30,25 +29,24 @@ requirements:
   run:
     - python
     - six
-    - ligo-common
 
 test:
-  imports:
-    - ligo.segments
-    # utils requires LAL, which is [not win]
-    - ligo.segments.utils  # [not win and py<38]
   source_files:
     - test/*.py
   requires:
-    - python-lal  # [not win and py<38]
+    - pip
+    - python-lal  # [not win]
   commands:
+    # check requirements
+    - python -m pip check
+    # run tests
     - python test/segments_verify.py
-    - python test/segments_utils_verify.py  # [not win and py<38]
+    - python test/segments_utils_verify.py  # [not win]
 
 about:
-  home: https://git.ligo.org/lscsoft/{{ name }}
-  dev_url: https://git.ligo.org/lscsoft/{{ name }}
-  doc_url: https://lscsoft.docs.ligo.org/{{ name }}/
+  home: https://git.ligo.org/lscsoft/ligo-segments/
+  dev_url: https://git.ligo.org/lscsoft/ligo-segments.git
+  doc_url: https://lscsoft.docs.ligo.org/ligo-segments/
   license: GPL-3.0-or-later
   license_family: GPL
   license_file: LICENSE

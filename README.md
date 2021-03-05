@@ -1,7 +1,7 @@
 About ligo-segments
 ===================
 
-Home: https://git.ligo.org/lscsoft/ligo-segments
+Home: https://git.ligo.org/lscsoft/ligo-segments/
 
 Package license: GPL-3.0-or-later
 
@@ -9,7 +9,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ligo-segments-f
 
 Summary: Representations of semi-open intervals
 
-Development: https://git.ligo.org/lscsoft/ligo-segments
+Development: https://git.ligo.org/lscsoft/ligo-segments.git
 
 Documentation: https://lscsoft.docs.ligo.org/ligo-segments/
 
@@ -224,9 +224,9 @@ build distinct package versions.
 
 In order to produce a uniquely identifiable distribution:
  * If the version of a package **is not** being increased, please add or increase
-   the [``build/number``](https://conda.io/docs/user-guide/tasks/build-packages/define-metadata.html#build-number-and-string).
+   the [``build/number``](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#build-number-and-string).
  * If the version of a package **is** being increased, please remember to return
-   the [``build/number``](https://conda.io/docs/user-guide/tasks/build-packages/define-metadata.html#build-number-and-string)
+   the [``build/number``](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#build-number-and-string)
    back to 0.
 
 Feedstock Maintainers
