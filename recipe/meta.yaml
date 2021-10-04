@@ -10,7 +10,7 @@ source:
   sha256: 13e0e278f9a14b247793884b368d6fae3b806cd794284e7afba158a2ccc016b3
 
 build:
-  number: 1
+  number: 2
   script: {{ PYTHON }} -m pip install . -vv
   ignore_run_exports:
     - m2w64-gcc-libs  # [win]
@@ -35,13 +35,14 @@ test:
     - test/*.py
   requires:
     - pip
-    - python-lal  # [not win]
+    # only run lal test on established platforms
+    - python-lal  # [x86_64 and not win]
   commands:
     # check requirements
     - python -m pip check
     # run tests
     - python test/segments_verify.py
-    - python test/segments_utils_verify.py  # [not win]
+    - python test/segments_utils_verify.py  # [x86_64 and not win]
 
 about:
   home: https://git.ligo.org/lscsoft/ligo-segments/
