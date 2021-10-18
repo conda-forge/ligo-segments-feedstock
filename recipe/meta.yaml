@@ -17,8 +17,8 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - python                              # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
     - {{ compiler('c') }}  # [not win]
     - {{ compiler('m2w64_c') }}  # [win]
   host:
@@ -36,13 +36,13 @@ test:
   requires:
     - pip
     # only run lal test on established platforms
-    - python-lal  # [x86_64 and not win]
+    - python-lal  # [x86_64 and not win and py<=39]
   commands:
     # check requirements
     - python -m pip check
     # run tests
     - python test/segments_verify.py
-    - python test/segments_utils_verify.py  # [x86_64 and not win]
+    - python test/segments_utils_verify.py  # [x86_64 and not win and py<=39]
 
 about:
   home: https://git.ligo.org/lscsoft/ligo-segments/
