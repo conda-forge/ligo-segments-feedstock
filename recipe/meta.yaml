@@ -35,14 +35,20 @@ test:
     - test/*.py
   requires:
     - pip
-    # only run lal test on established platforms
+    # most of the tests require python-lal, but python-lal
+    # has a runtime requirement on this package, so to avoid
+    # a circular dependency we only install LAL where we
+    # know it has been built already.
+    # DMM: this isn't great, but it's the best I can do to
+    #      allow running proper tests on at least some platforms
     - python-lal  # [x86_64 and not win and py<=39]
   commands:
     # check requirements
     - python -m pip check
-    # run tests
-    - python test/segments_verify.py
-    - python test/segments_utils_verify.py  # [x86_64 and not win and py<=39]
+    # run basic sanity test everywhere
+    - python -c "from ligo.segments import segment; assert segment(1, 2) + segment(2, 3) == segment(1, 3)"
+    # run tests (only where we can install LAL)
+    - python test/segments_verify.py  # [x86_64 and not win and py<=39]
 
 about:
   home: https://git.ligo.org/lscsoft/ligo-segments/
