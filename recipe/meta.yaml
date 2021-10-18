@@ -1,5 +1,5 @@
 {% set name = "ligo-segments" %}
-{% set version = "1.3.0" %}
+{% set version = "1.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,18 +7,18 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 13e0e278f9a14b247793884b368d6fae3b806cd794284e7afba158a2ccc016b3
+  sha256: e072a844713c5b02efdcaf5bfe4c3a8cd9ef225b08cfd3202a4e185e0f71f5dc
 
 build:
-  number: 2
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv
   ignore_run_exports:
     - m2w64-gcc-libs  # [win]
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - python                              # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
     - {{ compiler('c') }}  # [not win]
     - {{ compiler('m2w64_c') }}  # [win]
   host:
@@ -35,14 +35,20 @@ test:
     - test/*.py
   requires:
     - pip
-    # only run lal test on established platforms
-    - python-lal  # [x86_64 and not win]
+    # most of the tests require python-lal, but python-lal
+    # has a runtime requirement on this package, so to avoid
+    # a circular dependency we only install LAL where we
+    # know it has been built already.
+    # DMM: this isn't great, but it's the best I can do to
+    #      allow running proper tests on at least some platforms
+    - python-lal  # [x86_64 and not win and py<=39]
   commands:
     # check requirements
     - python -m pip check
-    # run tests
-    - python test/segments_verify.py
-    - python test/segments_utils_verify.py  # [x86_64 and not win]
+    # run basic sanity test everywhere
+    - python -c "from ligo.segments import segment; assert segment(1, 2) + segment(2, 3) == segment(1, 3)"
+    # run tests (only where we can install LAL)
+    - python test/segments_verify.py  # [x86_64 and not win and py<=39]
 
 about:
   home: https://git.ligo.org/lscsoft/ligo-segments/
