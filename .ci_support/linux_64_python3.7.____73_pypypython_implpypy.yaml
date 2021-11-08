@@ -16,8 +16,12 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.7.* *_73_pypy
+python_impl:
+- pypy
 target_platform:
 - linux-64
 zip_keys:
 - - cdt_name
   - docker_image
+- - python
+  - python_impl
