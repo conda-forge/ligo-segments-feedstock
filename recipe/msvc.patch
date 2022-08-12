@@ -1,0 +1,12 @@
+diff --git a/setup.py b/setup.py
+index 48e79f0..6cd0d93 100644
+--- a/setup.py
++++ b/setup.py
+@@ -67,6 +67,7 @@ setup(
+ 			'ligo.segments.__segments',
+ 			['src/segments.c', 'src/infinity.c', 'src/segment.c', 'src/segmentlist.c'],
+ 			include_dirs = ['src'],
++			define_macros = [("_CRT_DECLARE_NONSTDC_NAMES", 0)],
+ 		),
+ 	],
+ 	classifiers = [
