@@ -6,7 +6,7 @@
 {% set migrating = True %}  # [win]
 {% set migrating = True %}  # [not x86_64]
 {% set migrating = True %}  # [python_impl != 'cpython']
-{% set migrating = True %}  # [py >= 310]
+{% set migrating = True %}  # [py >= 312]
 
 package:
   name: {{ name|lower }}
@@ -16,14 +16,19 @@ source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: e072a844713c5b02efdcaf5bfe4c3a8cd9ef225b08cfd3202a4e185e0f71f5dc
   patches:
+    # backport https://git.ligo.org/lscsoft/ligo-segments/-/merge_requests/35
+    - 0001-use-PEP-420-implicit-namespace-packages.patch
     # fix for building with MSVC on windows,
     # see https://git.ligo.org/lscsoft/ligo-segments/-/issues/17
-    - msvc.patch  # [win]
+    - 0002-add-macro-to-fix-building-on-windows.patch  # [win]
     # avoid any imports of LAL on Windows
-    - no-lal.patch  # [win]
+    - 0003-avoid-imports-of-lal-for-windows.patch  # [win]
+    # fix incompatibe pointer error for Python 3.312,
+    # see https://git.ligo.org/lscsoft/ligo-segments/-/issues/20
+    - 0004-fix-imcompatible-pointer-error-for-Python-3.12.patch
 
 build:
-  number: 4
+  number: 5
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [python_impl != 'cpython']
 
