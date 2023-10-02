@@ -23,6 +23,9 @@ source:
     - 0002-add-macro-to-fix-building-on-windows.patch  # [win]
     # avoid any imports of LAL on Windows
     - 0003-avoid-imports-of-lal-for-windows.patch  # [win]
+    # fix incompatibe pointer error for Python 3.312,
+    # see https://git.ligo.org/lscsoft/ligo-segments/-/issues/20
+    - 0004-fix-imcompatible-pointer-error-for-Python-3.12.patch
 
 build:
   number: 5
