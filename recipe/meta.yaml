@@ -6,7 +6,7 @@
 {% set migrating = True %}  # [win]
 {% set migrating = True %}  # [not x86_64]
 {% set migrating = True %}  # [python_impl != 'cpython']
-{% set migrating = True %}  # [py >= 310]
+{% set migrating = True %}  # [py >= 312]
 
 package:
   name: {{ name|lower }}
