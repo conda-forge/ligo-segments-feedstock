@@ -1,7 +1,7 @@
-From 1ae4c7766f30aece2929b24f6fe1b1bfd86a8c8f Mon Sep 17 00:00:00 2001
+From d7b3783019c6c3fe7063f51d8dd96335ef20ddfa Mon Sep 17 00:00:00 2001
 From: "duncan.macleod" <duncan.macleod@ligo.org>
 Date: Thu, 13 Apr 2023 12:35:03 +0100
-Subject: [PATCH 2/4] add macro to fix building on windows
+Subject: [PATCH 2/5] add macro to fix building on windows
 
 ---
  setup.py | 1 +
@@ -20,5 +20,5 @@ index ce38467..9e8d292 100644
  	],
  	classifiers = [
 -- 
-2.41.0
+2.39.5
 
