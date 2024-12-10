@@ -13,7 +13,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: e072a844713c5b02efdcaf5bfe4c3a8cd9ef225b08cfd3202a4e185e0f71f5dc
   patches:
     # backport https://git.ligo.org/lscsoft/ligo-segments/-/merge_requests/35
@@ -23,18 +23,20 @@ source:
     - 0002-add-macro-to-fix-building-on-windows.patch  # [win]
     # avoid any imports of LAL on Windows
     - 0003-avoid-imports-of-lal-for-windows.patch  # [win]
-    # fix incompatibe pointer error for Python 3.312,
-    # see https://git.ligo.org/lscsoft/ligo-segments/-/issues/20
-    - 0004-fix-imcompatible-pointer-error-for-Python-3.12.patch
+    # backport https://git.ligo.org/lscsoft/ligo-segments/-/commit/8705612581587f43300b83b6c382efed46147942
+    - 0004-Initialize-PyTypeObjects-with-PyVarObject_HEAD_INIT.patch
+    # backport https://git.ligo.org/lscsoft/ligo-segments/-/merge_requests/38
+    - 0005-Fix-build-for-Python-3.13.patch
 
 build:
-  number: 5
+  number: 6
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [python_impl != 'cpython']
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     # extras for cross-compiling:
     - python                              # [build_platform != target_platform]
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
