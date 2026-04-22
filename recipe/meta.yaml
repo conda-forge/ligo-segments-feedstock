@@ -29,7 +29,7 @@ source:
     - 0005-Fix-build-for-Python-3.13.patch
 
 build:
-  number: 6
+  number: 7
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [python_impl != 'cpython']
 
